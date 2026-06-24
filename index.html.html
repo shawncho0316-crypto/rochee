@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roche Phone Call Prep — 영어 일정 조율 콜 연습</title>
+<style>
+  :root {
+    --ink: #16161d;
+    --ink-soft: #3d3d47;
+    --paper: #faf8f4;
+    --panel: #ffffff;
+    --line: #e3ddd3;
+    --line-soft: #efeae1;
+    --roche: #0066cc;
+    --roche-deep: #004a99;
+    --roche-wash: #eef5fc;
+    --accent: #d8694a;
+    --accent-wash: #fbeee9;
+    --gold: #b8893a;
+    --green: #4a8a5c;
+    --green-wash: #eef5f0;
+    --mute: #8c867a;
+    --shadow: 0 1px 2px rgba(20,20,29,.04), 0 8px 24px rgba(20,20,29,.06);
+    --shadow-lift: 0 2px 6px rgba(20,20,29,.06), 0 16px 40px rgba(20,20,29,.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 80px;
+  }
+
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 22px; }
+
+  /* ---------- Header ---------- */
+  header {
+    padding: 56px 0 40px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 8px;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--roche);
+    margin-bottom: 18px;
+  }
+  .eyebrow::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--roche); display: inline-block;
+  }
+  h1 {
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 800; letter-spacing: -.02em; line-height: 1.12;
+    margin-bottom: 14px;
+  }
+  h1 .sub { display: block; color: var(--accent); font-size: .62em; font-weight: 700; margin-top: 6px; letter-spacing: -.01em; }
+  .lead {
+    font-size: 16px; color: var(--ink-soft); max-width: 620px;
+  }
+  .context-card {
+    margin-top: 26px;
+    background: var(--roche-wash);
+    border: 1px solid #d4e6f7;
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .context-card .ico {
+    flex-shrink: 0; width: 38px; height: 38px; border-radius: 10px;
+    background: var(--roche); color: #fff; display: grid; place-items: center;
+    font-size: 19px;
+  }
+  .context-card h3 { font-size: 14px; font-weight: 800; margin-bottom: 4px; color: var(--roche-deep); }
+  .context-card p { font-size: 13.5px; color: var(--ink-soft); }
+
+  /* ---------- Progress ---------- */
+  .progress-bar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250,248,244,.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line-soft);
+    padding: 12px 0;
+    margin-bottom: 30px;
+  }
+  .progress-inner { display: flex; align-items: center; gap: 14px; }
+  .progress-track { flex: 1; height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--roche), var(--accent)); border-radius: 99px; transition: width .4s ease; }
+  .progress-label { font-size: 12.5px; font-weight: 700; color: var(--ink-soft); white-space: nowrap; }
+  .progress-label b { color: var(--roche); }
+
+  /* ---------- Tabs ---------- */
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 32px;
+  }
+  .tab {
+    font-size: 13px; font-weight: 700; font-family: inherit;
+    padding: 9px 15px; border-radius: 99px; cursor: pointer;
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft);
+    transition: all .18s ease; display: inline-flex; align-items: center; gap: 7px;
+  }
+  .tab .num { font-size: 11px; opacity: .55; font-variant-numeric: tabular-nums; }
+  .tab:hover { border-color: var(--roche); color: var(--roche); }
+  .tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .tab.active .num { opacity: .7; }
+
+  /* ---------- Section ---------- */
+  .section { display: none; animation: fade .35s ease; }
+  .section.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-head { margin-bottom: 24px; }
+  .section-tag {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; padding: 4px 10px; border-radius: 6px;
+    background: var(--accent-wash); color: var(--accent); margin-bottom: 12px;
+  }
+  .section-tag.crit { background: #fdeaea; color: #c0392b; }
+  .section-head h2 { font-size: 24px; font-weight: 800; letter-spacing: -.015em; margin-bottom: 8px; }
+  .section-head .ko { font-size: 14.5px; color: var(--mute); font-weight: 600; }
+  .section-head .desc { font-size: 14.5px; color: var(--ink-soft); margin-top: 10px; max-width: 640px; }
+
+  /* ---------- Scenario block ---------- */
+  .scenario {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 16px; padding: 22px; margin-bottom: 18px;
+    box-shadow: var(--shadow); transition: box-shadow .2s ease;
+  }
+  .scenario:hover { box-shadow: var(--shadow-lift); }
+  .scenario-trigger {
+    display: flex; gap: 11px; align-items: flex-start; margin-bottom: 16px;
+    padding-bottom: 15px; border-bottom: 1px dashed var(--line);
+  }
+  .trigger-ico {
+    flex-shrink: 0; width: 30px; height: 30px; border-radius: 8px;
+    background: var(--roche-wash); color: var(--roche); display: grid; place-items: center;
+    font-size: 15px; font-weight: 800;
+  }
+  .trigger-text .when { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--roche); margin-bottom: 3px; }
+  .trigger-text .situ { font-size: 15px; font-weight: 700; color: var(--ink); }
+  .trigger-text .situ-en { font-size: 13px; color: var(--mute); font-style: italic; margin-top: 2px; }
+
+  .lines-label {
+    font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--mute); margin-bottom: 11px; display: flex; align-items: center; gap: 8px;
+  }
+  .lines-label::after { content: ""; flex: 1; height: 1px; background: var(--line-soft); }
+
+  .line {
+    position: relative; padding: 13px 15px 13px 46px;
+    border-radius: 11px; background: var(--paper); border: 1px solid var(--line-soft);
+    margin-bottom: 9px; cursor: pointer; transition: all .16s ease;
+  }
+  .line:last-child { margin-bottom: 0; }
+  .line:hover { border-color: var(--roche); background: #fff; }
+  .line .opt-num {
+    position: absolute; left: 14px; top: 13px;
+    width: 21px; height: 21px; border-radius: 6px; background: var(--ink);
+    color: #fff; font-size: 11px; font-weight: 800; display: grid; place-items: center;
+  }
+  .line.primary .opt-num { background: var(--accent); }
+  .line .en { font-size: 14.5px; font-weight: 600; color: var(--ink); line-height: 1.5; }
+  .line .ko-trans { font-size: 12.5px; color: var(--mute); margin-top: 4px; }
+  .line .copy-hint {
+    position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
+    font-size: 11px; font-weight: 700; color: var(--roche); opacity: 0;
+    transition: opacity .16s ease; pointer-events: none;
+  }
+  .line:hover .copy-hint { opacity: .8; }
+  .line.copied { border-color: var(--green); background: var(--green-wash); }
+  .line.copied .copy-hint { opacity: 1; color: var(--green); }
+  .badge-best {
+    display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .05em;
+    background: var(--accent); color: #fff; padding: 2px 7px; border-radius: 5px;
+    margin-left: 8px; vertical-align: middle; text-transform: uppercase;
+  }
+
+  /* ---------- Tip box ---------- */
+  .tip {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--green-wash); border: 1px solid #cfe5d6;
+    border-radius: 12px; padding: 15px 17px; margin-top: 16px;
+  }
+  .tip.warn { background: #fdf4e7; border-color: #f0dcb8; }
+  .tip.crit { background: #fdeaea; border-color: #f3cccc; }
+  .tip .tip-ico { flex-shrink: 0; font-size: 17px; line-height: 1.5; }
+  .tip .tip-body { font-size: 13.5px; color: var(--ink-soft); }
+  .tip .tip-body b { color: var(--ink); }
+
+  /* ---------- Vocab / extra cards ---------- */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 620px) { .grid2 { grid-template-columns: 1fr; } }
+
+  .mini-card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 13px;
+    padding: 17px 18px; box-shadow: var(--shadow);
+  }
+  .mini-card h4 {
+    font-size: 14px; font-weight: 800; margin-bottom: 11px; color: var(--ink);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .mini-card h4 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--roche); }
+  .vocab-row {
+    display: flex; justify-content: space-between; gap: 12px;
+    padding: 8px 0; border-bottom: 1px dashed var(--line-soft); font-size: 13.5px;
+  }
+  .vocab-row:last-child { border-bottom: none; }
+  .vocab-row .term { font-weight: 700; color: var(--ink); }
+  .vocab-row .mean { color: var(--mute); text-align: right; flex-shrink: 0; }
+
+  .phrase-chip {
+    display: block; padding: 10px 13px; background: var(--paper);
+    border: 1px solid var(--line-soft); border-radius: 9px; margin-bottom: 8px;
+    cursor: pointer; transition: all .16s ease;
+  }
+  .phrase-chip:last-child { margin-bottom: 0; }
+  .phrase-chip:hover { border-color: var(--roche); background: #fff; }
+  .phrase-chip .pe { font-size: 14px; font-weight: 600; color: var(--ink); }
+  .phrase-chip .pk { font-size: 12px; color: var(--mute); margin-top: 2px; }
+  .phrase-chip.copied { border-color: var(--green); background: var(--green-wash); }
+
+  /* ---------- Number / timezone helper ---------- */
+  .tz-box {
+    background: linear-gradient(135deg, var(--roche-deep), var(--roche));
+    color: #fff; border-radius: 16px; padding: 24px; margin-bottom: 18px;
+    box-shadow: var(--shadow-lift);
+  }
+  .tz-box h4 { font-size: 16px; font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 9px; }
+  .tz-box p { font-size: 13.5px; opacity: .9; margin-bottom: 18px; }
+  .tz-cols { display: flex; gap: 16px; align-items: stretch; }
+  @media (max-width: 520px) { .tz-cols { flex-direction: column; gap: 12px; } }
+  .tz-col { flex: 1; background: rgba(255,255,255,.12); border-radius: 12px; padding: 16px; text-align: center; }
+  .tz-col .place { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
+  .tz-col .flag { font-size: 26px; margin: 6px 0; }
+  .tz-col .note { font-size: 12.5px; opacity: .92; }
+  .tz-arrow { display: grid; place-items: center; font-size: 22px; opacity: .8; }
+  @media (max-width: 520px) { .tz-arrow { transform: rotate(90deg); } }
+
+  /* ---------- Pronunciation ---------- */
+  .pron-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: center;
+    padding: 11px 0; border-bottom: 1px dashed var(--line-soft);
+  }
+  .pron-row:last-child { border-bottom: none; }
+  .pron-row .word { font-size: 14.5px; font-weight: 700; }
+  .pron-row .say { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .pron-row .say .stress { color: var(--ink); font-weight: 800; text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ---------- Footer nav ---------- */
+  .foot-nav {
+    display: flex; justify-content: space-between; gap: 12px; margin-top: 36px;
+    padding-top: 24px; border-top: 1px solid var(--line);
+  }
+  .nav-btn {
+    font-family: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer;
+    padding: 12px 20px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--panel); color: var(--ink); transition: all .16s ease;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .nav-btn:hover:not(:disabled) { border-color: var(--roche); color: var(--roche); transform: translateY(-1px); }
+  .nav-btn:disabled { opacity: .35; cursor: not-allowed; }
+  .nav-btn.next { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .nav-btn.next:hover:not(:disabled) { background: var(--roche-deep); border-color: var(--roche-deep); color: #fff; }
+
+  /* toast */
+  .toast {
+    position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: #fff; padding: 11px 20px; border-radius: 99px;
+    font-size: 13.5px; font-weight: 600; box-shadow: var(--shadow-lift);
+    opacity: 0; pointer-events: none; transition: all .25s ease; z-index: 100;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .flow-strip {
+    display: flex; gap: 0; margin: 28px 0 0; border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--line); background: var(--panel);
+  }
+  .flow-step { flex: 1; padding: 13px 8px; text-align: center; font-size: 12px; font-weight: 700;
+    color: var(--mute); border-right: 1px solid var(--line-soft); position: relative; }
+  .flow-step:last-child { border-right: none; }
+  .flow-step .fn { display: block; font-size: 16px; color: var(--roche); margin-bottom: 2px; }
+  .flow-step.on { background: var(--roche-wash); color: var(--roche-deep); }
+
+  /* ---------- Dialogue scenarios ---------- */
+  .scn-intro {
+    background: var(--accent-wash); border: 1px solid #f0d4c9;
+    border-radius: 13px; padding: 16px 18px; margin-bottom: 20px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .scn-intro .ico { flex-shrink: 0; font-size: 19px; }
+  .scn-intro p { font-size: 13.5px; color: var(--ink-soft); }
+  .scn-intro b { color: var(--accent); }
+
+  .scn-card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 16px; margin-bottom: 18px; overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .scn-header {
+    padding: 16px 20px; background: var(--ink); color: #fff;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .scn-header .scn-no {
+    flex-shrink: 0; width: 30px; height: 30px; border-radius: 8px;
+    background: rgba(255,255,255,.15); display: grid; place-items: center;
+    font-size: 14px; font-weight: 800;
+  }
+  .scn-header .scn-title { font-size: 14.5px; font-weight: 700; }
+  .scn-header .scn-sub { font-size: 12px; opacity: .7; margin-top: 1px; }
+
+  .dialogue { padding: 16px 18px 18px; }
+  .turn { display: flex; gap: 11px; margin-bottom: 13px; }
+  .turn:last-child { margin-bottom: 0; }
+  .turn .avatar {
+    flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%;
+    display: grid; place-items: center; font-size: 13px; font-weight: 800;
+  }
+  .turn.them .avatar { background: var(--roche-wash); color: var(--roche); }
+  .turn.you .avatar { background: var(--accent); color: #fff; }
+  .bubble-wrap { flex: 1; min-width: 0; }
+  .who { font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; }
+  .turn.them .who { color: var(--roche); }
+  .turn.you .who { color: var(--accent); }
+  .bubble {
+    padding: 11px 14px; border-radius: 12px; font-size: 14px; line-height: 1.55;
+    position: relative;
+  }
+  .turn.them .bubble { background: var(--roche-wash); color: var(--ink); border-top-left-radius: 4px; }
+  .turn.you .bubble {
+    background: var(--accent-wash); color: var(--ink); border-top-left-radius: 4px;
+    cursor: pointer; transition: all .16s ease; border: 1px solid transparent;
+  }
+  .turn.you .bubble:hover { border-color: var(--accent); background: #fff; }
+  .turn.you .bubble::after {
+    content: "탭하면 복사 ⧉"; position: absolute; right: 11px; bottom: 6px;
+    font-size: 10px; color: var(--accent); opacity: 0; transition: opacity .16s;
+  }
+  .turn.you .bubble:hover::after { opacity: .7; }
+  .turn.you .bubble.copied { background: var(--green-wash); border-color: var(--green); }
+  .bubble .ko-sub { display: block; font-size: 12px; color: var(--mute); margin-top: 5px; }
+
+  .copy-you-btn {
+    width: 100%; font-family: inherit; font-size: 12.5px; font-weight: 700;
+    padding: 11px; border: 1px dashed var(--accent); background: var(--accent-wash);
+    color: var(--accent); border-radius: 10px; cursor: pointer; margin-top: 6px;
+    transition: all .16s ease;
+  }
+  .copy-you-btn:hover { background: var(--accent); color: #fff; }
+
+  .closing-banner {
+    margin-top: 30px; background: var(--ink); color: #fff; border-radius: 16px;
+    padding: 26px; text-align: center;
+  }
+  .closing-banner h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .closing-banner p { font-size: 14px; opacity: .82; max-width: 480px; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar">
+  <div class="wrap">
+    <div class="progress-inner">
+      <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+      <div class="progress-label"><b id="plearned">0</b> / <span id="ptotal">0</span> 표현 익힘</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header>
+    <span class="eyebrow">Roche Diagnostics · Interview Scheduling Call</span>
+    <h1>영어 일정 조율 폰콜 연습
+      <span class="sub">China office · schedule coordination call</span>
+    </h1>
+    <p class="lead">중국 지사에서 면접 일정 확인을 위해 영어로 전화가 옵니다. 순수 일정 조율 콜이니, 아래 상황별 표현을 입에 붙여두면 5분 안에 깔끔하게 끝납니다. 각 상황마다 표현 3~4개씩 — 상대가 어떻게 말해도 골라 쓸 수 있게.</p>
+
+    <div class="context-card">
+      <div class="ico">📞</div>
+      <div>
+        <h3>이 콜의 정체</h3>
+        <p>로슈 공고상 "면접 일정은 해외지사(중국)에서 담당, 일정 확인을 위해 중국 번호로 연락". 즉 <b>실무·임원 면접 날짜를 잡는 행정 통화</b>입니다. 깊은 경력 질문은 이 단계가 아니라 이후 면접에서 나옵니다. 핵심은 <b>시차 확인 + 못 알아들었을 때 되묻기</b> 둘.</p>
+      </div>
+    </div>
+
+    <div class="flow-strip">
+      <div class="flow-step on"><span class="fn">01</span>서류 전형 ✓</div>
+      <div class="flow-step on"><span class="fn">📞</span>일정 조율 콜<br>(지금 여기)</div>
+      <div class="flow-step"><span class="fn">02</span>실무·임원 면접</div>
+      <div class="flow-step"><span class="fn">03</span>종합 심사</div>
+      <div class="flow-step"><span class="fn">04</span>최종 합격</div>
+    </div>
+  </header>
+
+  <div class="tabs" id="tabs"></div>
+
+  <!-- ===================== SECTIONS RENDER HERE ===================== -->
+  <div id="sections"></div>
+
+  <div class="foot-nav">
+    <button class="nav-btn" id="prevBtn">← 이전</button>
+    <button class="nav-btn next" id="nextBtn">다음 →</button>
+  </div>
+
+  <div class="closing-banner">
+    <h3>전화 끊는 순간까지가 평가입니다</h3>
+    <p>일정 콜이라 가볍지만, 첫인상이 면접관에게 전달됩니다. 천천히 또박또박, 못 알아들으면 당당히 되묻기 — 그게 프로페셔널입니다. 행운을 빕니다, Dohyun.</p>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">복사됨!</div>
+
+<script>
+// ============================ DATA ============================
+const SECTIONS = [
+  {
+    id: 'open',
+    tag: 'STEP 1',
+    tagClass: '',
+    title: 'Opening',
+    ko: '전화를 받는 순간 · 첫 10초',
+    desc: '받자마자 천천히. 첫 마디의 톤과 발음이 첫인상을 정합니다. 이름은 또박또박, 끝을 살짝 올려 친근하게.',
+    blocks: [
+      {
+        when: '전화를 받을 때',
+        situ: '벨이 울리고 받는 순간',
+        situEn: 'You pick up the phone',
+        lines: [
+          { en: "Hello, this is Dohyun Cho speaking.", ko: "여보세요, 조도현입니다.", primary: true },
+          { en: "Hello, Dohyun Cho speaking. How can I help you?", ko: "여보세요, 조도현입니다. 무엇을 도와드릴까요?" },
+          { en: "Hello, this is Dohyun. May I ask who's calling?", ko: "여보세요, 도현입니다. 어디신지 여쭤봐도 될까요?" },
+          { en: "Good afternoon, this is Dohyun Cho.", ko: "안녕하세요, 조도현입니다. (오후 인사)" },
+        ]
+      },
+      {
+        when: '상대가 소개하면',
+        situ: '로슈/중국 지사라고 밝힐 때',
+        situEn: 'They introduce themselves',
+        lines: [
+          { en: "Yes, thank you for calling. I've been expecting your call.", ko: "네, 전화 주셔서 감사합니다. 연락 기다리고 있었습니다.", primary: true },
+          { en: "Hi, thank you for reaching out. Nice to speak with you.", ko: "안녕하세요, 연락 주셔서 감사합니다. 통화하게 되어 반갑습니다." },
+          { en: "Yes, of course. Thank you for getting in touch.", ko: "네, 그럼요. 연락 주셔서 감사합니다." },
+        ]
+      },
+      {
+        when: '안 들렸을 때',
+        situ: '상대 이름·소속이 잘 안 들리면',
+        situEn: "You didn't catch their name",
+        lines: [
+          { en: "Sorry, may I ask who I'm speaking with?", ko: "실례지만 누구신지 여쭤봐도 될까요?", primary: true },
+          { en: "Sorry, could I get your name again?", ko: "죄송한데 성함을 다시 여쭤봐도 될까요?" },
+          { en: "Apologies — which company are you calling from?", ko: "죄송합니다, 어느 회사에서 연락 주신 건가요?" },
+        ]
+      }
+    ],
+    tips: [
+      { type: '', ico: '🎯', body: "<b>이름은 천천히.</b> 'Dohyun Cho'를 또박또박. 외국인은 한국 이름을 한 번에 못 알아듣는 경우가 많아서, 첫 인사부터 명확히 발음하면 통화 전체가 편해집니다." },
+      { type: 'warn', ico: '⏱️', body: "받자마자 긴장해서 빨라지기 쉽습니다. <b>첫 문장은 의식적으로 느리게.</b> 속도는 그 다음부터 자연스럽게 맞춰집니다." }
+    ]
+  },
+  {
+    id: 'schedule',
+    tag: 'STEP 2 · 핵심',
+    tagClass: '',
+    title: 'Scheduling',
+    ko: '일정 조율 본론 · 콜의 핵심',
+    desc: '상대가 가능한 날짜를 물어봅니다. 날짜 제안 → 시차 확인 → 면접 방식 확인 순서로. 시차 한 문장이 의외로 결정적입니다.',
+    blocks: [
+      {
+        when: '날짜를 제안할 때',
+        situ: '"언제 가능하세요?" 라고 물으면',
+        situEn: 'They ask about your availability',
+        lines: [
+          { en: "I'm available on most weekdays. Would Tuesday or Thursday next week work?", ko: "평일 대부분 가능합니다. 다음 주 화요일이나 목요일 괜찮으실까요?", primary: true },
+          { en: "I'm flexible. What dates do you have in mind?", ko: "저는 유연합니다. 어떤 날짜를 생각하고 계신가요?" },
+          { en: "Mornings work best for me. Would that be possible?", ko: "오전이 가장 좋습니다. 가능할까요?" },
+          { en: "I can make myself available whenever suits the interviewers.", ko: "면접관분들 일정에 맞춰 시간을 낼 수 있습니다." },
+        ]
+      },
+      {
+        when: '상대가 날짜를 주면',
+        situ: '특정 날짜·시간을 제시할 때',
+        situEn: 'They propose a specific slot',
+        lines: [
+          { en: "Let me check… Yes, that works for me.", ko: "확인해보겠습니다… 네, 가능합니다.", primary: true },
+          { en: "That sounds good. I'll make a note of it.", ko: "좋습니다. 메모해두겠습니다." },
+          { en: "Perfect, that date works well for me.", ko: "완벽합니다, 그 날짜 좋습니다." },
+          { en: "Could we do a bit later in the day instead?", ko: "혹시 그날 좀 더 늦은 시간으로 할 수 있을까요?" },
+        ]
+      },
+      {
+        when: '시차 확인 (꼭!)',
+        situ: '시간을 정할 때 — 한국·중국 1시간 차',
+        situEn: 'Confirming the time zone',
+        lines: [
+          { en: "Just to confirm — is that Korea time or China time? There's a one-hour difference.", ko: "확인차 여쭤봅니다. 그게 한국 시간인가요, 중국 시간인가요? 1시간 차이가 있어서요.", primary: true },
+          { en: "Sorry, could you confirm the time zone for that?", ko: "죄송한데 그 시간이 어느 시간대인지 확인해주시겠어요?" },
+          { en: "So that's 3 PM Korea time — is that right?", ko: "그러면 한국 시간 오후 3시인 거죠, 맞나요?" },
+          { en: "I'm based in Korea, so I just want to make sure we're aligned on the time.", ko: "제가 한국에 있어서, 시간을 정확히 맞추고 싶습니다." },
+        ]
+      },
+      {
+        when: '면접 방식 확인',
+        situ: '화상/대면, 플랫폼 확인',
+        situEn: 'Format & platform',
+        lines: [
+          { en: "Could you let me know if the interview will be online or in person?", ko: "면접이 화상인가요, 대면인가요?", primary: true },
+          { en: "Will this be a video call or a phone interview?", ko: "화상 통화인가요, 전화 면접인가요?" },
+          { en: "Which platform will we use — Teams, Zoom, or something else?", ko: "어떤 플랫폼을 쓰나요 — Teams, Zoom, 아니면 다른 건가요?" },
+          { en: "Should I expect a meeting link by email?", ko: "이메일로 미팅 링크를 받게 되나요?" },
+        ]
+      },
+      {
+        when: '소요 시간·면접관 확인',
+        situ: '얼마나 걸리는지, 누구와 하는지',
+        situEn: 'Duration & who you meet',
+        lines: [
+          { en: "About how long should I expect the interview to take?", ko: "면접은 대략 얼마나 걸릴까요?", primary: true },
+          { en: "May I ask who I'll be speaking with?", ko: "누구와 면접을 보게 되는지 여쭤봐도 될까요?" },
+          { en: "Will it be a technical interview or more of a general one?", ko: "기술 면접인가요, 아니면 일반 면접에 가깝나요?" },
+        ]
+      }
+    ],
+    tips: [
+      { type: 'crit', ico: '🕐', body: "<b>시차 확인은 반드시.</b> 한국은 중국보다 1시간 빠릅니다 (한국 오후 3시 = 중국 오후 2시). 면접 시간을 착각하는 사고가 실제로 가장 흔합니다. 이 한 문장이 사고를 막고, 동시에 꼼꼼한 사람이라는 인상을 줍니다." },
+      { type: '', ico: '✍️', body: "<b>받아 적으세요.</b> 통화 중 날짜·시간·플랫폼을 메모하면서 \"Let me write that down\"이라고 말하면 자연스럽습니다. 끝에 한 번 더 복창해 확인하면 완벽합니다." }
+    ]
+  },
+  {
+    id: 'justincase',
+    tag: 'STEP 3 · 만일 대비',
+    tagClass: '',
+    title: 'Just in Case',
+    ko: '가벼운 질문이 끼어들 때',
+    desc: '일정 콜이지만 HR이 이 정도는 물을 수 있습니다. 깊은 답변은 필요 없고, 짧고 자신 있게.',
+    blocks: [
+      {
+        when: '영어 가능 여부',
+        situ: '"면접은 영어로 진행됩니다, 괜찮으세요?"',
+        situEn: '"The interview will be in English — is that okay?"',
+        lines: [
+          { en: "Yes, that's fine. I'm comfortable communicating in English for work.", ko: "네, 괜찮습니다. 업무상 영어로 소통하는 데 익숙합니다.", primary: true },
+          { en: "Absolutely. I use English regularly in my current role.", ko: "물론입니다. 현재 업무에서도 영어를 자주 씁니다." },
+          { en: "Yes, no problem at all. I'm happy to proceed in English.", ko: "네, 전혀 문제없습니다. 영어로 진행해도 좋습니다." },
+        ]
+      },
+      {
+        when: '합류 가능 시점',
+        situ: '"언제부터 합류 가능하세요?"',
+        situEn: '"When could you start?"',
+        lines: [
+          { en: "I'm currently employed, so I'd need about a month for the notice period.", ko: "현재 재직 중이라, 인수인계로 한 달 정도 필요합니다.", primary: true },
+          { en: "I'd need to give notice at my current company — roughly four weeks.", ko: "현 직장에 통보가 필요해서, 대략 4주 정도입니다." },
+          { en: "I could start within a month of receiving an offer.", ko: "오퍼를 받으면 한 달 내로 시작할 수 있습니다." },
+        ]
+      },
+      {
+        when: '현재 재직 여부',
+        situ: '"지금 일하고 계신가요?"',
+        situEn: '"Are you currently working?"',
+        lines: [
+          { en: "Yes, I'm currently working as a Field Service Engineer.", ko: "네, 현재 필드 서비스 엔지니어로 일하고 있습니다.", primary: true },
+          { en: "Yes, I'm still in my current position.", ko: "네, 현재 직장에 재직 중입니다." },
+          { en: "That's right — I'm employed and exploring new opportunities.", ko: "맞습니다, 재직 중이며 새로운 기회를 찾고 있습니다." },
+        ]
+      },
+      {
+        when: '연락처·이메일 확인',
+        situ: '"이메일/번호가 ~ 맞나요?"',
+        situEn: 'Confirming your contact details',
+        lines: [
+          { en: "Yes, that's correct. You can also reach me by email anytime.", ko: "네, 맞습니다. 이메일로도 언제든 연락 주셔도 됩니다.", primary: true },
+          { en: "That's right. Let me confirm — it's d, o, h, y, u, n...", ko: "맞습니다. 확인할게요 — d, o, h, y, u, n…" },
+          { en: "Correct. Would you like me to spell out my email to be sure?", ko: "맞습니다. 확실하게 이메일 철자를 불러드릴까요?" },
+        ]
+      }
+    ],
+    tips: [
+      { type: '', ico: '💡', body: "<b>한 달(notice period)은 예시입니다.</b> 도현님 실제 상황에 맞게 숫자만 바꾸세요. 외국계는 보통 4주~6주 인수인계를 당연하게 받아들입니다." },
+      { type: 'warn', ico: '🚫', body: "이 단계에서 이직 사유를 길게 설명할 필요는 없습니다. 깊은 질문은 실제 면접에서. 여기선 <b>짧고 긍정적으로</b> 끊는 게 프로페셔널합니다." }
+    ]
+  },
+  {
+    id: 'clarify',
+    tag: 'STEP 4 · 가장 중요',
+    tagClass: 'crit',
+    title: 'Clarification',
+    ko: '못 알아들었을 때 — 폰콜의 생명줄',
+    desc: '전화는 얼굴이 안 보여서 반드시 한 번은 못 알아듣습니다. 되묻는 건 실례가 아니라 정확히 확인하려는 태도. 이 표현들만 입에 붙어도 콜 전체를 끌고 갈 수 있습니다.',
+    blocks: [
+      {
+        when: '다시 말해달라고',
+        situ: '한 번 더 듣고 싶을 때',
+        situEn: 'Ask them to repeat',
+        lines: [
+          { en: "Sorry, could you say that again, please?", ko: "죄송한데 다시 한번 말씀해주시겠어요?", primary: true },
+          { en: "I'm sorry, I didn't quite catch that.", ko: "죄송합니다, 제대로 못 들었습니다." },
+          { en: "Would you mind repeating that?", ko: "다시 말씀해주실 수 있을까요?" },
+          { en: "Sorry, the line cut out for a second — could you repeat?", ko: "죄송해요, 잠깐 소리가 끊겼어요 — 다시 말씀해주시겠어요?" },
+        ]
+      },
+      {
+        when: '천천히 말해달라고',
+        situ: '상대가 너무 빠를 때',
+        situEn: 'Ask them to slow down',
+        lines: [
+          { en: "Could you speak a little more slowly, please?", ko: "조금만 천천히 말씀해주시겠어요?", primary: true },
+          { en: "Sorry, could you slow down just a bit?", ko: "죄송한데 조금만 천천히 해주실 수 있나요?" },
+          { en: "I want to make sure I get this right — could you go a little slower?", ko: "정확히 듣고 싶어서요 — 조금 천천히 해주시겠어요?" },
+        ]
+      },
+      {
+        when: '이해 확인',
+        situ: '내가 이해한 게 맞는지',
+        situEn: 'Confirm your understanding',
+        lines: [
+          { en: "Let me make sure I understand — you mean Thursday at 2 PM, right?", ko: "제가 이해한 게 맞는지 확인할게요 — 목요일 오후 2시 말씀이신 거죠?", primary: true },
+          { en: "So, if I understood correctly, the interview is online — is that right?", ko: "제가 제대로 이해했다면, 면접은 화상으로 진행되는 거죠 — 맞나요?" },
+          { en: "Just to be clear, you'd like me to wait for an email — correct?", ko: "확실히 하자면, 이메일을 기다리면 되는 거죠 — 맞나요?" },
+        ]
+      },
+      {
+        when: '철자·숫자 확인',
+        situ: '이메일·이름·번호 등',
+        situEn: 'Spelling & numbers',
+        lines: [
+          { en: "Could you spell that out for me, please?", ko: "철자를 불러주시겠어요?", primary: true },
+          { en: "Sorry, was that fifteen or fifty?", ko: "죄송한데, 15였나요 50이었나요?" },
+          { en: "Let me read that back to you to confirm.", ko: "확인을 위해 제가 다시 읽어드릴게요." },
+        ]
+      },
+      {
+        when: '잠깐 시간 벌기',
+        situ: '생각할 시간이 필요할 때',
+        situEn: 'Buy a moment to think',
+        lines: [
+          { en: "That's a good question — let me think for a second.", ko: "좋은 질문이네요 — 잠깐 생각해보겠습니다.", primary: true },
+          { en: "Give me just a moment to check my calendar.", ko: "일정 확인할 시간을 잠깐 주세요." },
+          { en: "Let me just grab my schedule — one second.", ko: "일정표 좀 볼게요 — 잠시만요." },
+        ]
+      }
+    ],
+    tips: [
+      { type: 'crit', ico: '🔑', body: "<b>되묻기는 실력 부족이 아닙니다.</b> 원어민끼리도 전화에서는 \"Sorry?\" \"Come again?\"을 수없이 씁니다. 모르고 넘어가서 날짜를 틀리는 게 진짜 실수예요. 당당하게 되물으세요." },
+      { type: '', ico: '🎧', body: "<b>\"이해 확인\" 표현이 가장 강력합니다.</b> 들은 내용을 다시 말해서 확인하면(read-back), 못 알아들어도 정보를 100% 맞출 수 있고 꼼꼼한 인상까지 줍니다. 날짜·시간엔 무조건 이걸 쓰세요." }
+    ]
+  },
+  {
+    id: 'closing',
+    tag: 'STEP 5',
+    tagClass: '',
+    title: 'Closing',
+    ko: '통화 마무리 · 깔끔하게',
+    desc: '일정이 정해지면 합의 내용을 복창하고, 감사 인사로 끝냅니다. 마무리가 깔끔하면 프로페셔널한 여운이 남습니다.',
+    blocks: [
+      {
+        when: '합의 내용 복창',
+        situ: '정해진 일정 재확인',
+        situEn: 'Recap the agreed details',
+        lines: [
+          { en: "So, just to confirm — the interview is on Thursday at 2 PM, via Teams. Is that correct?", ko: "정리하면, 면접은 목요일 오후 2시에 Teams로 진행되는 거죠. 맞나요?", primary: true },
+          { en: "Let me recap — Thursday, 2 PM Korea time, online. Did I get that right?", ko: "정리할게요 — 목요일 한국 시간 오후 2시, 화상. 맞게 들었나요?" },
+          { en: "Great, so I'll expect the meeting link by email before then.", ko: "좋습니다, 그 전에 이메일로 미팅 링크를 받는 거죠." },
+        ]
+      },
+      {
+        when: '감사 인사',
+        situ: '일정 잡아준 것에 대해',
+        situEn: 'Thank them',
+        lines: [
+          { en: "Thank you so much for arranging this. I look forward to the interview.", ko: "일정 잡아주셔서 정말 감사합니다. 면접 기대하고 있겠습니다.", primary: true },
+          { en: "Thanks for setting this up — I appreciate it.", ko: "준비해주셔서 감사합니다 — 정말 고맙습니다." },
+          { en: "I really appreciate your help with the scheduling.", ko: "일정 조율 도와주셔서 진심으로 감사합니다." },
+        ]
+      },
+      {
+        when: '추가 안내 확인',
+        situ: '내가 준비할 게 있는지',
+        situEn: 'Anything you should prepare',
+        lines: [
+          { en: "Is there anything I should prepare beforehand?", ko: "미리 준비해야 할 것이 있을까요?", primary: true },
+          { en: "Should I bring or send any documents in advance?", ko: "미리 보내거나 준비할 서류가 있나요?" },
+          { en: "Please let me know if you need anything else from me.", ko: "제게 더 필요한 게 있으면 알려주세요." },
+        ]
+      },
+      {
+        when: '전화 끊기',
+        situ: '마지막 작별 인사',
+        situEn: 'Sign off',
+        lines: [
+          { en: "Thank you again. Have a great day. Goodbye.", ko: "다시 한번 감사합니다. 좋은 하루 보내세요. 안녕히 계세요.", primary: true },
+          { en: "Thanks, and I look forward to hearing from you. Take care.", ko: "감사합니다, 연락 기다리겠습니다. 잘 지내세요." },
+          { en: "Great, thank you for your time. Bye for now.", ko: "좋습니다, 시간 내주셔서 감사합니다. 이만 끊겠습니다." },
+        ]
+      }
+    ],
+    tips: [
+      { type: '', ico: '✅', body: "<b>복창은 마지막 안전장치입니다.</b> 끊기 전 날짜·시간·방식을 한 번 더 말하면, 통화 중 놓친 게 있어도 여기서 잡힙니다. 상대도 안심하고요." },
+      { type: '', ico: '😊', body: "<b>끝인사는 미소 띤 톤으로.</b> 전화는 표정이 안 보여도 목소리에 미소가 묻어납니다. 마지막 \"Have a great day\"를 밝게 끝내면 좋은 여운이 남습니다." }
+    ]
+  }
+];
+
+// Extra reference content (appended as final pseudo-section)
+const EXTRA = {
+  id: 'extra',
+  tag: '부록',
+  title: 'Extra Toolkit',
+  ko: '알아두면 든든한 추가 자료',
+  desc: '발음·날짜 표현·전화 매너·돌발 상황까지. 실전에서 한 번씩 꺼내 쓰게 됩니다.'
+};
+
+// ============ 10 DIALOGUE SCENARIOS ============
+const DIALOGUES = [
+  {
+    title: '기본 일정 잡기',
+    sub: '가장 흔한 표준 흐름',
+    turns: [
+      { s: 'them', t: "Hello, am I speaking with Dohyun Cho? This is Li Wei from Roche Diagnostics, calling from the China office." },
+      { s: 'you', t: "Yes, this is Dohyun speaking. Thank you for calling — I've been expecting your call.", k: "네, 도현입니다. 전화 주셔서 감사합니다 — 기다리고 있었습니다." },
+      { s: 'them', t: "Great. I'm calling to arrange your interview. Could you let me know your availability for next week?" },
+      { s: 'you', t: "I'm available on most weekdays. Would Tuesday or Thursday work for the interviewers?", k: "평일 대부분 가능합니다. 화요일이나 목요일이 면접관분들께 괜찮을까요?" },
+      { s: 'them', t: "Thursday works well. Shall we say 2 PM?" },
+      { s: 'you', t: "Let me check my calendar… Yes, Thursday at 2 works. Just to confirm — is that Korea time or China time? There's a one-hour difference.", k: "일정 확인할게요… 네, 목요일 2시 가능합니다. 확인차 — 한국 시간인가요 중국 시간인가요? 1시간 차이가 있어서요." },
+      { s: 'them', t: "Good point — let's make it 2 PM Korea time." },
+      { s: 'you', t: "Perfect, Thursday at 2 PM Korea time. I'll make a note of it. Will the interview be online or in person?", k: "좋습니다, 목요일 한국 시간 2시. 메모해둘게요. 면접은 화상인가요 대면인가요?" },
+      { s: 'them', t: "It'll be online, via Microsoft Teams. I'll send the link by email." },
+      { s: 'you', t: "Sounds good. Thank you so much for arranging this — I look forward to it.", k: "좋습니다. 일정 잡아주셔서 감사합니다 — 기대하고 있겠습니다." },
+    ]
+  },
+  {
+    title: '시차 혼선 정리',
+    sub: '시간대가 헷갈릴 때',
+    turns: [
+      { s: 'them', t: "So we've scheduled your interview for 10 AM on Wednesday." },
+      { s: 'you', t: "Thank you. Could I just confirm the time zone? I want to make sure we're aligned — I'm based in Korea.", k: "감사합니다. 시간대만 확인할게요. 제가 한국에 있어서 정확히 맞추고 싶습니다." },
+      { s: 'them', t: "Ah, that's 10 AM China time." },
+      { s: 'you', t: "Got it. So that would be 11 AM Korea time, since Korea is one hour ahead — is that right?", k: "알겠습니다. 그럼 한국 시간 11시겠네요, 한국이 1시간 빠르니까 — 맞나요?" },
+      { s: 'them', t: "Exactly, 11 AM your time." },
+      { s: 'you', t: "Perfect. And just so I'm prepared, should I join a few minutes early?", k: "좋습니다. 준비 차원에서, 몇 분 일찍 접속하는 게 좋을까요?" },
+      { s: 'them', t: "Yes, joining five minutes early would be ideal." },
+      { s: 'you', t: "Will do — I'll be ready at 10:55 Korea time. Thank you for clarifying; it's easy to mix that up.", k: "그렇게 하겠습니다 — 한국 시간 10시 55분에 준비하겠습니다. 확인해주셔서 감사합니다, 헷갈리기 쉬운 부분이라서요." },
+    ]
+  },
+  {
+    title: '면접관·소요 시간 묻기',
+    sub: '누구와, 얼마나',
+    turns: [
+      { s: 'them', t: "The interview is confirmed for Monday afternoon." },
+      { s: 'you', t: "Thank you. May I ask who I'll be speaking with, and roughly how long it should take?", k: "감사합니다. 누구와 면접을 보는지, 대략 얼마나 걸리는지 여쭤봐도 될까요?" },
+      { s: 'them', t: "You'll meet the service manager first, then a senior engineer. It should take about an hour in total." },
+      { s: 'you', t: "That's helpful, thank you. Will it be more of a technical interview, or a general one?", k: "도움이 되네요, 감사합니다. 기술 면접에 가깝나요, 일반 면접인가요?" },
+      { s: 'them', t: "A bit of both — some technical questions and some about your background." },
+      { s: 'you', t: "Understood. Is there anything I should send over beforehand?", k: "알겠습니다. 미리 보내드릴 게 있을까요?" },
+      { s: 'them', t: "No need, we have your resume. Just join the call on time." },
+      { s: 'you', t: "Will do. Thank you again for the details.", k: "그렇게 하겠습니다. 자세히 알려주셔서 감사합니다." },
+    ]
+  },
+  {
+    title: '못 알아들어 되묻기',
+    sub: '발음·숫자 확인',
+    turns: [
+      { s: 'them', t: "We'd like to schedule the interview for the fifteenth, at half past three." },
+      { s: 'you', t: "Sorry, could you say that again, please? I want to make sure I get the date right.", k: "죄송한데 다시 말씀해주시겠어요? 날짜를 정확히 듣고 싶어서요." },
+      { s: 'them', t: "Sure — the fifteenth, at three thirty." },
+      { s: 'you', t: "Thank you. So that's the fifteenth — was that fifteen or fifty? I just want to be certain.", k: "감사합니다. 15일 — 15였나요 50이었나요? 확실히 하고 싶어서요." },
+      { s: 'them', t: "Fifteen, the one-five." },
+      { s: 'you', t: "Got it. Let me read that back — Wednesday the fifteenth, 3:30 PM. Is that correct?", k: "알겠습니다. 다시 확인할게요 — 수요일 15일, 오후 3시 30분. 맞나요?" },
+      { s: 'them', t: "That's right." },
+      { s: 'you', t: "Perfect, thank you for your patience with that.", k: "좋습니다, 기다려주셔서 감사합니다." },
+    ]
+  },
+  {
+    title: '일정 변경 요청',
+    sub: '시간이 안 맞을 때',
+    turns: [
+      { s: 'them', t: "Would Friday morning at 9 AM work for you?" },
+      { s: 'you', t: "I'd love to, but I have a work conflict that morning. Would it be possible to do the afternoon instead?", k: "그러고 싶지만 그날 오전에 업무 일정이 겹칩니다. 혹시 오후로 가능할까요?" },
+      { s: 'them', t: "Let me see… How about 3 PM?" },
+      { s: 'you', t: "That works much better for me, thank you. So Friday at 3 PM — Korea time, I assume?", k: "그게 훨씬 좋습니다, 감사합니다. 금요일 3시 — 한국 시간이죠?" },
+      { s: 'them', t: "Yes, Korea time. I'll update the calendar invite and resend it." },
+      { s: 'you', t: "Thank you. Could you also resend the meeting link to the same email?", k: "감사합니다. 미팅 링크도 같은 이메일로 다시 보내주시겠어요?" },
+      { s: 'them', t: "Of course, I'll send the updated link shortly." },
+      { s: 'you', t: "Great, I really appreciate your flexibility. Friday, 3 PM Korea time it is.", k: "좋습니다, 유연하게 맞춰주셔서 감사합니다. 금요일 한국 시간 3시로 하죠." },
+    ]
+  },
+  {
+    title: '영어 면접 확인',
+    sub: '진행 언어 안내받을 때',
+    turns: [
+      { s: 'them', t: "I should mention — the interview will be conducted in English. Is that comfortable for you?" },
+      { s: 'you', t: "Yes, that's fine. I'm comfortable communicating in English for work, and I use it regularly in my current role.", k: "네, 괜찮습니다. 업무상 영어 소통에 익숙하고, 현재 직무에서도 자주 씁니다." },
+      { s: 'them', t: "Perfect. The senior engineer is based in Singapore, so the whole session will be in English." },
+      { s: 'you', t: "Understood, no problem at all. May I ask if it'll be a video call so we can share screens if needed?", k: "알겠습니다, 전혀 문제없습니다. 필요하면 화면 공유가 되도록 화상 통화인지 여쭤봐도 될까요?" },
+      { s: 'them', t: "Yes, it's a video call on Teams. Feel free to ask them to repeat anything if needed." },
+      { s: 'you', t: "Thank you, that's reassuring. I look forward to speaking with both of them.", k: "감사합니다, 안심이 되네요. 두 분과 이야기 나누길 기대하겠습니다." },
+    ]
+  },
+  {
+    title: '합류 가능 시점',
+    sub: '입사 시기 질문',
+    turns: [
+      { s: 'them', t: "Before we finalize, may I ask — if things go well, when would you be able to start?" },
+      { s: 'you', t: "I'm currently employed, so I'd need about a month for the notice period and handover.", k: "현재 재직 중이라, 인수인계로 한 달 정도 필요합니다." },
+      { s: 'them', t: "That's completely normal. So roughly four weeks from an offer?" },
+      { s: 'you', t: "Yes, around four weeks. I'd make sure the transition is smooth on my current side as well.", k: "네, 약 4주입니다. 현 직장 쪽 인수인계도 매끄럽게 마무리하겠습니다." },
+      { s: 'them', t: "Good to know. Is the timing flexible if the team needs you a little sooner?" },
+      { s: 'you', t: "I'd do my best to accommodate. If needed, I could discuss a shorter handover with my current team.", k: "최대한 맞춰보겠습니다. 필요하다면 현 팀과 더 짧은 인수인계를 논의해볼 수 있습니다." },
+      { s: 'them', t: "That's great to hear. That timeline works for us." },
+      { s: 'you', t: "Thank you. I appreciate you asking upfront — it helps to be clear from the start.", k: "감사합니다. 먼저 물어봐주셔서 좋네요 — 처음부터 명확한 게 도움이 됩니다." },
+    ]
+  },
+  {
+    title: '이메일 철자 확인',
+    sub: '연락처 불러주기',
+    turns: [
+      { s: 'them', t: "I'll be sending the meeting details by email. Could you confirm your address?" },
+      { s: 'you', t: "Of course. Let me spell it out to be sure — it's d, o, h, y, u, n, then the rest as on my application.", k: "그럼요. 확실하게 철자를 불러드릴게요 — d, o, h, y, u, n, 나머지는 지원서와 동일합니다." },
+      { s: 'them', t: "Let me read it back… got it. And is this phone number the best way to reach you?" },
+      { s: 'you', t: "Yes, this number works anytime. You can also email me if I miss a call.", k: "네, 이 번호 언제든 괜찮습니다. 전화를 놓치면 이메일 주셔도 됩니다." },
+      { s: 'them', t: "Perfect. Just so you know, the email may come from a roche.com address." },
+      { s: 'you', t: "Good to know — I'll watch for it and check my spam folder just in case.", k: "알려주셔서 감사합니다 — 잘 확인하고, 혹시 모르니 스팸함도 보겠습니다." },
+      { s: 'them', t: "Great, I have everything I need." },
+      { s: 'you', t: "Wonderful, thank you. I'll keep an eye out for your email.", k: "좋습니다, 감사합니다. 이메일 기다리고 있겠습니다." },
+    ]
+  },
+  {
+    title: '통화 품질 불량',
+    sub: '소리가 끊길 때',
+    turns: [
+      { s: 'them', t: "So the interview will be on Tuesday at— …—via Teams, and—" },
+      { s: 'you', t: "I'm sorry, you're breaking up a little. Could you repeat the day and time?", k: "죄송해요, 소리가 좀 끊깁니다. 날짜와 시간을 다시 말씀해주시겠어요?" },
+      { s: 'them', t: "Is this better? I said Tuesday at 2 PM, via Teams." },
+      { s: 'you', t: "Yes, that's much clearer now, thank you. Tuesday at 2 PM Korea time, via Teams — correct?", k: "네, 훨씬 잘 들려요, 감사합니다. 화요일 한국 시간 2시, Teams로 — 맞나요?" },
+      { s: 'them', t: "Correct. Did you also catch the part about sending your portfolio?" },
+      { s: 'you', t: "Sorry, I missed that — could you say it once more? I don't want to miss anything important.", k: "죄송해요, 그 부분을 놓쳤어요 — 한 번만 더 말씀해주시겠어요? 중요한 걸 놓치고 싶지 않아서요." },
+      { s: 'them', t: "No problem — there's nothing else to send. Just join on time." },
+      { s: 'you', t: "Perfect. Sorry again about the connection — thank you for your patience.", k: "좋습니다. 연결 상태 다시 한번 죄송해요 — 기다려주셔서 감사합니다." },
+    ]
+  },
+  {
+    title: '마무리 + 준비물 확인',
+    sub: '깔끔하게 끝내기',
+    turns: [
+      { s: 'them', t: "I think that's everything. Do you have any questions for me?" },
+      { s: 'you', t: "Just one — is there anything I should prepare or bring to the interview?", k: "하나만요 — 면접에 준비하거나 가져갈 게 있을까요?" },
+      { s: 'them', t: "Nothing specific. Just be ready to talk through your experience." },
+      { s: 'you', t: "Sounds good. So to confirm everything — Thursday, 2 PM Korea time, online via Teams, and I'll receive the link by email. Did I get that right?", k: "좋습니다. 전체 정리하면 — 목요일 한국 시간 2시, Teams 화상, 링크는 이메일로. 맞나요?" },
+      { s: 'them', t: "Yes, that's all correct." },
+      { s: 'you', t: "Wonderful. Thank you so much for your help with the scheduling — I really appreciate it. Have a great day.", k: "좋습니다. 일정 조율 도와주셔서 정말 감사합니다. 좋은 하루 보내세요." },
+    ]
+  }
+];
+
+// ============================ RENDER ============================
+const sectionsEl = document.getElementById('sections');
+const tabsEl = document.getElementById('tabs');
+let current = 0;
+const learned = new Set();
+
+function lineHTML(b, si, bi) {
+  return b.lines.map((l, li) => `
+    <div class="line ${l.primary ? 'primary' : ''}" data-key="${si}-${bi}-${li}" data-en="${encodeURIComponent(l.en)}">
+      <span class="opt-num">${li+1}</span>
+      <div class="en">${l.en}${l.primary ? '<span class="badge-best">추천</span>' : ''}</div>
+      <div class="ko-trans">${l.ko}</div>
+      <span class="copy-hint">탭하면 복사 ⧉</span>
+    </div>
+  `).join('');
+}
+
+function blockHTML(b, si, bi) {
+  return `
+    <div class="scenario">
+      <div class="scenario-trigger">
+        <div class="trigger-ico">${bi+1}</div>
+        <div class="trigger-text">
+          <div class="when">${b.when}</div>
+          <div class="situ">${b.situ}</div>
+          <div class="situ-en">${b.situEn}</div>
+        </div>
+      </div>
+      <div class="lines-label">골라 쓰는 표현</div>
+      ${lineHTML(b, si, bi)}
+    </div>
+  `;
+}
+
+function tipHTML(t) {
+  return `<div class="tip ${t.type}"><span class="tip-ico">${t.ico}</span><div class="tip-body">${t.body}</div></div>`;
+}
+
+SECTIONS.forEach((s, si) => {
+  const sec = document.createElement('div');
+  sec.className = 'section' + (si === 0 ? ' active' : '');
+  sec.dataset.idx = si;
+  sec.innerHTML = `
+    <div class="section-head">
+      <span class="section-tag ${s.tagClass}">${s.tag}</span>
+      <h2>${s.title} <span style="font-size:15px;color:var(--mute);font-weight:600;">${s.ko}</span></h2>
+      <p class="desc">${s.desc}</p>
+    </div>
+    ${si === 1 ? tzBoxHTML() : ''}
+    ${s.blocks.map((b, bi) => blockHTML(b, si, bi)).join('')}
+    ${s.tips.map(tipHTML).join('')}
+  `;
+  sectionsEl.appendChild(sec);
+
+  const tab = document.createElement('button');
+  tab.className = 'tab' + (si === 0 ? ' active' : '');
+  tab.innerHTML = `<span class="num">0${si+1}</span> ${s.title}`;
+  tab.onclick = () => goTo(si);
+  tabsEl.appendChild(tab);
+});
+
+// ============ RENDER DIALOGUE SCENARIOS SECTION ============
+const dlgSec = document.createElement('div');
+dlgSec.className = 'section';
+dlgSec.dataset.idx = SECTIONS.length; // will sit right after the 5 main sections
+function turnHTML(t) {
+  const av = t.s === 'you' ? 'Me' : 'CN';
+  const who = t.s === 'you' ? 'You · 나' : 'Coordinator · 담당자';
+  const ko = t.k ? `<span class="ko-sub">${t.k}</span>` : '';
+  const dataEn = t.s === 'you' ? ` data-en="${encodeURIComponent(t.t)}"` : '';
+  return `
+    <div class="turn ${t.s}">
+      <div class="avatar">${av}</div>
+      <div class="bubble-wrap">
+        <div class="who">${who}</div>
+        <div class="bubble"${dataEn}>${t.t}${ko}</div>
+      </div>
+    </div>`;
+}
+function dlgCardHTML(d, i) {
+  const youLines = d.turns.filter(t => t.s === 'you').map(t => t.t).join('\n\n');
+  return `
+    <div class="scn-card">
+      <div class="scn-header">
+        <div class="scn-no">${i+1}</div>
+        <div>
+          <div class="scn-title">${d.title}</div>
+          <div class="scn-sub">${d.sub}</div>
+        </div>
+      </div>
+      <div class="dialogue">
+        ${d.turns.map(turnHTML).join('')}
+        <button class="copy-you-btn" data-youlines="${encodeURIComponent(youLines)}">내 대사만 한번에 복사 ⧉</button>
+      </div>
+    </div>`;
+}
+dlgSec.innerHTML = `
+  <div class="section-head">
+    <span class="section-tag">실전 대화</span>
+    <h2>Mock Dialogues <span style="font-size:15px;color:var(--mute);font-weight:600;">예상 통화 10개 — 주고받는 실제 흐름</span></h2>
+    <p class="desc">담당자와 도현님이 번갈아 대화하는 10가지 상황입니다. 파란 말풍선은 상대, 주황 말풍선은 내 대사예요. 내 대사를 탭하면 복사되고, 맨 아래 버튼으로 한 시나리오의 내 대사를 통째로 복사할 수도 있습니다.</p>
+  </div>
+  <div class="scn-intro">
+    <span class="ico">🎭</span>
+    <p>읽기만 하지 말고 <b>상대 대사는 눈으로, 내 대사는 소리 내어</b> 따라 해보세요. 실제 통화처럼 흐름을 타는 연습이 됩니다. 같은 상황도 표현이 조금씩 다르니, 입에 붙는 버전을 고르면 됩니다.</p>
+  </div>
+  ${DIALOGUES.map(dlgCardHTML).join('')}
+  <div class="tip"><span class="tip-ico">🔁</span><div class="tip-body"><b>모든 시나리오에 시차 확인과 복창이 반복됩니다.</b> 일부러 그렇게 짰어요. 이 두 패턴이 몸에 배면, 실제 콜이 어떤 방향으로 흘러도 안전하게 마무리됩니다.</div></div>
+`;
+sectionsEl.appendChild(dlgSec);
+
+const dlgTab = document.createElement('button');
+dlgTab.className = 'tab';
+dlgTab.innerHTML = `<span class="num">🎭</span> 실전 대화`;
+dlgTab.onclick = () => goTo(SECTIONS.length);
+tabsEl.appendChild(dlgTab);
+
+// Extra toolkit section
+const extraSec = document.createElement('div');
+extraSec.className = 'section';
+extraSec.dataset.idx = SECTIONS.length + 1;
+extraSec.innerHTML = `
+  <div class="section-head">
+    <span class="section-tag">${EXTRA.tag}</span>
+    <h2>${EXTRA.title} <span style="font-size:15px;color:var(--mute);font-weight:600;">${EXTRA.ko}</span></h2>
+    <p class="desc">${EXTRA.desc}</p>
+  </div>
+
+  <div class="grid2" style="margin-bottom:14px;">
+    <div class="mini-card">
+      <h4><span class="dot"></span>전화 영어 핵심 단어</h4>
+      <div class="vocab-row"><span class="term">Notice period</span><span class="mean">인수인계 기간</span></div>
+      <div class="vocab-row"><span class="term">Availability</span><span class="mean">가능한 시간</span></div>
+      <div class="vocab-row"><span class="term">Reschedule</span><span class="mean">일정 변경</span></div>
+      <div class="vocab-row"><span class="term">In person</span><span class="mean">대면으로</span></div>
+      <div class="vocab-row"><span class="term">Get back to you</span><span class="mean">다시 연락드리다</span></div>
+      <div class="vocab-row"><span class="term">Works for me</span><span class="mean">저는 괜찮습니다</span></div>
+    </div>
+    <div class="mini-card">
+      <h4><span class="dot"></span>날짜·시간 말하기</h4>
+      <div class="vocab-row"><span class="term">this coming Tuesday</span><span class="mean">돌아오는 화요일</span></div>
+      <div class="vocab-row"><span class="term">the week after next</span><span class="mean">다다음 주</span></div>
+      <div class="vocab-row"><span class="term">first thing in the morning</span><span class="mean">아침 일찍</span></div>
+      <div class="vocab-row"><span class="term">early / late afternoon</span><span class="mean">이른/늦은 오후</span></div>
+      <div class="vocab-row"><span class="term">2 PM sharp</span><span class="mean">정각 2시</span></div>
+      <div class="vocab-row"><span class="term">half past three</span><span class="mean">3시 30분</span></div>
+    </div>
+  </div>
+
+  <div class="mini-card" style="margin-bottom:14px;">
+    <h4><span class="dot"></span>발음 — 한국인이 자주 흘리는 단어</h4>
+    <div class="pron-row"><span class="word">available</span><span class="say">어-<span class="stress">베이</span>-러-블 (강세 2번째)</span></div>
+    <div class="pron-row"><span class="word">schedule</span><span class="say"><span class="stress">스케</span>-쥴 (영국: <span class="stress">쉐</span>-쥴)</span></div>
+    <div class="pron-row"><span class="word">interview</span><span class="say"><span class="stress">인</span>-터-뷰 (강세 1번째)</span></div>
+    <div class="pron-row"><span class="word">comfortable</span><span class="say"><span class="stress">컴</span>(프)-터-블 — '포터블' 아님</span></div>
+    <div class="pron-row"><span class="word">Thursday</span><span class="say"><span class="stress">써r</span>-즈데이 — th 혀 살짝</span></div>
+    <div class="pron-row"><span class="word">appreciate</span><span class="say">어-<span class="stress">프리</span>-쉬-에잇</span></div>
+  </div>
+
+  <div class="grid2" style="margin-bottom:14px;">
+    <div class="mini-card">
+      <h4><span class="dot"></span>돌발 상황 대처</h4>
+      <div class="phrase-chip" data-en="${encodeURIComponent("Sorry, I'm in a noisy place — could I call you right back?")}">
+        <div class="pe">Sorry, I'm in a noisy place — could I call you right back?</div>
+        <div class="pk">주변이 시끄러울 때 — 다시 걸어도 될까요?</div>
+      </div>
+      <div class="phrase-chip" data-en="${encodeURIComponent("Could you hold on for just a second, please?")}">
+        <div class="pe">Could you hold on for just a second, please?</div>
+        <div class="pk">잠깐만 기다려 주시겠어요?</div>
+      </div>
+      <div class="phrase-chip" data-en="${encodeURIComponent("I'm sorry, you're breaking up a little.")}">
+        <div class="pe">I'm sorry, you're breaking up a little.</div>
+        <div class="pk">소리가 좀 끊겨요 (통화 품질)</div>
+      </div>
+    </div>
+    <div class="mini-card">
+      <h4><span class="dot"></span>일정 변경이 필요하면</h4>
+      <div class="phrase-chip" data-en="${encodeURIComponent("Would it be possible to reschedule to another day?")}">
+        <div class="pe">Would it be possible to reschedule to another day?</div>
+        <div class="pk">다른 날로 변경 가능할까요?</div>
+      </div>
+      <div class="phrase-chip" data-en="${encodeURIComponent("I have a conflict that morning — could we do the afternoon?")}">
+        <div class="pe">I have a conflict that morning — could we do the afternoon?</div>
+        <div class="pk">그날 오전은 일정이 겹쳐서 — 오후 가능할까요?</div>
+      </div>
+      <div class="phrase-chip" data-en="${encodeURIComponent("Could we find a slot later in the week?")}">
+        <div class="pe">Could we find a slot later in the week?</div>
+        <div class="pk">그 주 후반으로 시간을 잡을 수 있을까요?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mini-card" style="margin-bottom:14px;">
+    <h4><span class="dot"></span>전화 매너 — 5가지 황금률</h4>
+    <div class="vocab-row"><span class="term">1. 받자마자 천천히</span><span class="mean">첫 문장은 의식적으로 느리게</span></div>
+    <div class="vocab-row"><span class="term">2. 메모하며 통화</span><span class="mean">날짜·시간·플랫폼 받아쓰기</span></div>
+    <div class="vocab-row"><span class="term">3. 막히면 되묻기</span><span class="mean">"Sorry?"는 실례 아님</span></div>
+    <div class="vocab-row"><span class="term">4. 끝에 복창</span><span class="mean">합의 내용 한 번 더 확인</span></div>
+    <div class="vocab-row"><span class="term">5. 미소 띤 목소리</span><span class="mean">표정이 톤에 묻어남</span></div>
+  </div>
+
+  <div class="tip"><span class="tip-ico">📋</span><div class="tip-body"><b>통화 직전 체크리스트:</b> 조용한 장소 확보 · 펜과 메모지 · 일정표(캘린더) 열어두기 · 이 페이지 띄워두기 · 물 한 잔. 준비가 떨림을 줄입니다.</div></div>
+
+  <div class="tip warn"><span class="tip-ico">🌏</span><div class="tip-body"><b>중국 번호 표시 주의:</b> +86으로 시작하는 모르는 번호가 떠도 받으세요. 스팸처럼 보여도 로슈 중국 지사일 수 있습니다. 못 받았다면 음성사서함을 확인하고, 위 "다시 걸기" 표현으로 회신하면 됩니다.</div></div>
+`;
+sectionsEl.appendChild(extraSec);
+
+const extraTab = document.createElement('button');
+extraTab.className = 'tab';
+extraTab.innerHTML = `<span class="num">＋</span> 부록`;
+extraTab.onclick = () => goTo(SECTIONS.length + 1);
+tabsEl.appendChild(extraTab);
+
+function tzBoxHTML() {
+  return `
+  <div class="tz-box">
+    <h4>🕐 시차 빠른 참조</h4>
+    <p>한국이 중국보다 <b>1시간 빠릅니다.</b> 면접 시간을 들으면 머릿속에서 바로 변환하세요.</p>
+    <div class="tz-cols">
+      <div class="tz-col">
+        <div class="place">Korea (KST)</div>
+        <div class="flag">🇰🇷</div>
+        <div class="note">오후 <b>3:00</b></div>
+      </div>
+      <div class="tz-arrow">→</div>
+      <div class="tz-col">
+        <div class="place">China (CST)</div>
+        <div class="flag">🇨🇳</div>
+        <div class="note">오후 <b>2:00</b></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ============================ INTERACTION ============================
+const total = SECTIONS.reduce((a, s) => a + s.blocks.reduce((x, b) => x + b.lines.length, 0), 0);
+document.getElementById('ptotal').textContent = total;
+
+function updateProgress() {
+  document.getElementById('plearned').textContent = learned.size;
+  document.getElementById('pfill').style.width = (learned.size / total * 100) + '%';
+}
+
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1400);
+}
+
+function copyText(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+  } else { fallbackCopy(text); }
+}
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+}
+
+document.addEventListener('click', (e) => {
+  const line = e.target.closest('.line');
+  if (line) {
+    const en = decodeURIComponent(line.dataset.en);
+    copyText(en);
+    line.classList.add('copied');
+    learned.add(line.dataset.key);
+    updateProgress();
+    showToast('복사됨 — 입에 붙여보세요 🗣️');
+    setTimeout(() => line.classList.remove('copied'), 1200);
+    return;
+  }
+  const chip = e.target.closest('.phrase-chip');
+  if (chip && chip.dataset.en) {
+    copyText(decodeURIComponent(chip.dataset.en));
+    chip.classList.add('copied');
+    showToast('복사됨!');
+    setTimeout(() => chip.classList.remove('copied'), 1200);
+    return;
+  }
+  // dialogue: single "you" bubble
+  const bubble = e.target.closest('.turn.you .bubble');
+  if (bubble && bubble.dataset.en) {
+    copyText(decodeURIComponent(bubble.dataset.en));
+    bubble.classList.add('copied');
+    showToast('내 대사 복사됨 — 소리 내어 🗣️');
+    setTimeout(() => bubble.classList.remove('copied'), 1200);
+    return;
+  }
+  // dialogue: copy all "you" lines in a scenario
+  const youBtn = e.target.closest('.copy-you-btn');
+  if (youBtn && youBtn.dataset.youlines) {
+    copyText(decodeURIComponent(youBtn.dataset.youlines));
+    showToast('이 시나리오의 내 대사 전체 복사됨!');
+    const orig = youBtn.textContent;
+    youBtn.textContent = '복사 완료 ✓';
+    setTimeout(() => youBtn.textContent = orig, 1300);
+  }
+});
+
+// ============================ NAVIGATION ============================
+const allSections = () => document.querySelectorAll('.section');
+const allTabs = () => document.querySelectorAll('.tab');
+const maxIdx = SECTIONS.length + 1; // dialogues + extra are the last two
+
+function goTo(idx) {
+  current = idx;
+  allSections().forEach(s => s.classList.toggle('active', +s.dataset.idx === idx));
+  allTabs().forEach((t, i) => t.classList.toggle('active', i === idx));
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.disabled = (idx === maxIdx);
+  if (idx === maxIdx) nextBtn.textContent = '끝 ✓';
+  else if (idx === SECTIONS.length - 1) nextBtn.textContent = '실전 대화 →';
+  else if (idx === SECTIONS.length) nextBtn.textContent = '부록 보기 →';
+  else nextBtn.textContent = '다음 →';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('prevBtn').onclick = () => { if (current > 0) goTo(current - 1); };
+document.getElementById('nextBtn').onclick = () => { if (current < maxIdx) goTo(current + 1); };
+
+updateProgress();
+goTo(0);
+</script>
+</body>
+</html>
